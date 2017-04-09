@@ -1,0 +1,260 @@
+#:kivy 1.9.1
+#:import lv kivy.uix.listview
+#:import la kivy.adapters.listadapter
+
+<SettingDialog>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        padding: 0, 30, 0, 0
+
+        BoxLayout:
+            size_hint_y: None
+            height: 60
+            padding: 0, 0, 30, 10
+            orientation: "horizontal"
+            Label:
+                size_hint_x: 0.4
+                text: "Scale Factor:"
+            TextInput:
+                id: sf_input
+                padding_y: (self.height - self.line_height)/2
+                text: "1.3"
+                multiline: False
+
+        BoxLayout:
+            height: 70
+            padding: 0, 10, 30, 10
+            size_hint_y: None
+            orientation: "horizontal"
+            Label:
+                size_hint_x: 0.4
+                text: "Minimum Neighbors:"
+            TextInput:
+                id: mn_input
+                text: "5"
+                padding_y: (self.height - self.line_height)/2
+                multiline: False
+
+        BoxLayout:
+            size_hint_y: None
+            height: 70
+            padding: 0, 10, 30, 10
+            orientation: "horizontal"
+            Label:
+                size_hint_x: 0.4
+                text: "Angle of Rotation:"
+            BoxLayout:
+                orientation: 'horizontal'
+                CheckBox:
+                    group: "rotate"
+                    on_active: root.checkActive0(*args)
+                Label:
+                    id: cbx0
+                    text: '0'
+                CheckBox:
+                    group: "rotate"
+                    on_active: root.checkActive1(*args)
+                Label:
+                    id: cbx1
+                    text: '90'
+                CheckBox:
+                    group: "rotate"
+                    on_active: root.checkActive2(*args)
+                Label:
+                    id: cbx2
+                    text: '180'
+                CheckBox:
+                    group: "rotate"
+                    on_active: root.checkActive3(*args)
+                Label:
+                    id: cbx3
+                    text: '270'
+
+        BoxLayout:
+            size_hint_y: None
+            orientation: "horizontal"
+            height: 90
+            padding: 20, 20, 20, 20
+            spacing: 20
+            Button:
+                text: 'Cancel'
+                on_release: root.cancel()
+            Button:
+                text: 'Confirm'
+                on_release: root.set(sf_input.text, mn_input.text)
+
+
+<SetDateDialog>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        padding: 0, 30, 0, 0
+
+        BoxLayout:
+            size_hint_y: None
+            height: 60
+            padding: 0, 0, 30, 10
+            orientation: "horizontal"
+            Label:
+                size_hint_x: 0.4
+                text: "Location:"
+            TextInput:
+                id: lc_input
+                padding_y: (self.height - self.line_height)/2
+                text: "Room 101"
+                multiline: False
+
+        BoxLayout:
+            height: 70
+            padding: 0, 10, 30, 10
+            size_hint_y: None
+            orientation: "horizontal"
+            Label:
+                size_hint_x: 0.4
+                text: "Date:"
+            TextInput:
+                id: dt_input
+                text: "01/01/2016"
+                padding_y: (self.height - self.line_height)/2
+                multiline: False
+
+        BoxLayout:
+            height: 70
+            padding: 0, 10, 30, 10
+            size_hint_y: None
+            orientation: "horizontal"
+            Label:
+                size_hint_x: 0.4
+                text: "Time:"
+            TextInput:
+                id: tm_input
+                text: "00:00"
+                padding_y: (self.height - self.line_height)/2
+                multiline: False
+
+        BoxLayout:
+            size_hint_y: None
+            orientation: "horizontal"
+            height: 90
+            padding: 20, 20, 20, 20
+            spacing: 20
+            Button:
+                text: 'Cancel'
+                on_release: root.cancel()
+            Button:
+                text: 'Confirm'
+                on_release: root.confirm(lc_input.text, dt_input.text, tm_input.text)
+
+<LoadVideoDialog>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        ListView:
+            id: drives_list
+            size_hint_y: 0.2
+            adapter: la.ListAdapter(data=root.get_win_drives(), selection_mode='single', allow_empty_selection = False, cls = lv.ListItemButton)
+
+        FileChooserIconView:
+            id: filechooser
+
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                text: "Cancel"
+                on_release: root.cancel()
+
+            Button:
+                text: "Load"
+                on_release: root.load(filechooser.path, filechooser.selection)
+
+<SaveDialog>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        ListView:
+            id: drives_list
+            size_hint_y: 0.2
+            adapter: la.ListAdapter(data=root.get_win_drives(), selection_mode='single', allow_empty_selection = False, cls = lv.ListItemButton)
+
+        FileChooserIconView:
+            id: filechooser1
+            filters: [root.is_dir]
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                text: "Cancel"
+                on_release: root.cancel()
+            Button:
+                text: "Choose"
+                on_release: root.choose(filechooser1.path)
+
+<LoadPictureDialog>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        ListView:
+            id: drives_list
+            size_hint_y: 0.2
+            adapter: la.ListAdapter(data=root.get_win_drives(), selection_mode='single', allow_empty_selection = False, cls = lv.ListItemButton)
+
+        FileChooserIconView:
+            id: filechooser2
+            filters: [root.is_dir]
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                text: "Cancel"
+                on_release: root.cancel()
+            Button:
+                text: "Choose"
+                on_release: root.load(filechooser2.path)
+
+
+<SelectCSVDialog>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        ListView:
+            id: drives_list
+            size_hint_y: 0.2
+            adapter: la.ListAdapter(data=root.get_win_drives(), selection_mode='single', allow_empty_selection = False, cls = lv.ListItemButton)
+
+        FileChooserIconView:
+            id: filechooser3
+
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            Button:
+                text: "Cancel"
+                on_release: root.cancel()
+            Button:
+                text: "Create"
+                on_release: root.create(filechooser3.path)
+            Button:
+                text: "Select"
+                on_release: root.select(filechooser3.path, filechooser3.selection)
+
+
+<MessageDialog>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        Label:
+            text: root.message
+        Button:
+            text: "Confirm"
+            size_hint_y: 0.4
+            on_release: root.confirm()
+

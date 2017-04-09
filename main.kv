@@ -1,0 +1,287 @@
+#: kivy 1.9.1
+#: import FadeTransition kivy.uix.screenmanager.FadeTransition
+
+ScreenManagement:
+    transition: FadeTransition()
+    MainScreen:
+    CaptureFrame:
+    DetectEmotion:
+
+<MainScreen>
+    name: 'main'
+    BoxLayout:
+        padding: 10, 30, 10, 0
+        orientation: "vertical"
+        canvas.before:
+            Color:
+                rgb: 0.933 , 0.933 , 0.933
+            Rectangle:
+                size: self.size
+
+        Label:
+            size_hint_y: 0.2
+            font_size: '50sp'
+            color: 0, 0, 0,  1
+            text: "Emotion Genius"
+
+        BoxLayout:
+            orientation: "vertical"
+            padding: 50, 150, 50, 50
+            spacing: 60
+            Button:
+                background_color: 0.906 , 0.298 , 0.235, 1
+                background_normal: ''
+                background_down: ''
+                border: 0,0,0,0
+                text: "Capture Frames"
+                font_size: '40sp'
+                on_release: app.root.current = "captureframe"
+            Button:
+                text: "Analyse Emotions"
+                background_normal: ''
+                background_color: 0.557 , 0.267 , 0.678, 1
+                background_down: ''
+                border: 0,0,0,0
+                font_size: '40sp'
+                on_release: app.root.current = "detectemotion"
+
+        Label:
+            size_hint_y: 0.2
+            font_size: '20sp'
+            color: 0.671 , 0.718 , 0.718, 1
+            text: "Melbourne Networked Society Institute"
+
+<CaptureFrame>
+    name: 'captureframe'
+    BoxLayout:
+        padding: 0, 30, 0, 0
+        orientation: "vertical"
+        canvas.before:
+            Color:
+                rgb: 0.933 , 0.933 , 0.933
+            Rectangle:
+                size: self.size
+        Label:
+            size_hint_y: 0.3
+            color: 0, 0, 0,  1
+            text: "Capture Frame"
+            font_size: '50sp'
+
+        BoxLayout:
+            orientation: "horizontal"
+            padding: 30,80,30,30
+            BoxLayout:
+                padding: 0, 20, 0 ,20
+                orientation: "vertical"
+                height: 160
+                size_hint_y: None
+                spacing: 20
+                Label:
+                    id: lb1
+                    text: root.video_src
+                    color: 0.671 , 0.718 , 0.718, 1
+                    text_size: self.size
+                    size: root.size
+                    font_size: '20sp'
+                    halign: "left"
+                    valign: "middle"
+                Label:
+                    id: lb2
+                    text: root.frame_save
+                    color: 0.671 , 0.718 , 0.718, 1
+                    text_size: self.size
+                    size: root.size
+                    font_size: '20sp'
+                    halign: "left"
+                    valign: "middle"
+            BoxLayout:
+                size_hint_x: 0.5
+                orientation: "vertical"
+                padding: 20, 20, 0 ,20
+                height: 160
+                spacing: 20
+                size_hint_y: None
+                Button:
+                    text: 'Load Video'
+                    font_size: '20sp'
+                    background_normal: ''
+                    background_color: 0.906 , 0.298 , 0.235, 1
+                    background_down: ''
+                    border: 0,0,0,0
+                    on_release: root.show_load()
+                Button:
+                    text: "Saving Path"
+                    font_size: "20sp"
+                    background_normal: ''
+                    background_color: 0.133 , 0.655 , 0.941, 1
+                    background_down: ''
+                    border: 0,0,0,0
+                    on_release: root.show_saving()
+
+        BoxLayout:
+            orientation:"vertical"
+            padding: 30,0,30,0
+            size_hint_y: 0.3
+            ProgressBar:
+                size_hint_y: 0.3
+                max: root.progressTotal
+                value: root.progressCurrent
+
+            Label:
+                text_size: self.size
+                text: root.process_log
+                color: 0,0,0,1
+                halign: "left"
+                valign: "middle"
+
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: 90
+            padding: 30, 20, 30, 20
+            spacing: 20
+            Button:
+                text: 'Back'
+                font_size: '20sp'
+                background_normal: ''
+                background_color: 0.106 , 0.737 , 0.608, 1
+                background_down: ''
+                border: 0,0,0,0
+                on_release: app.root.current = 'main'
+            Button:
+                text: 'Start'
+                font_size: '20sp'
+                background_normal: ''
+                background_color: 0.133 , 0.192 , 0.247, 1
+                background_down: ''
+                border: 0,0,0,0
+                on_release:
+                    root.process_framecapture()
+            Button:
+                text: 'Settings'
+                font_size: '20sp'
+                background_normal: ''
+                background_color: 0.953 , 0.612 , 0.071, 1
+                background_down: ''
+                border: 0,0,0,0
+                on_release: root.show_setting()
+
+
+
+
+<DetectEmotion>
+    name: 'detectemotion'
+    BoxLayout:
+        padding: 0, 30, 0, 0
+        orientation: "vertical"
+        canvas.before:
+            Color:
+                rgb: 0.933 , 0.933 , 0.933
+            Rectangle:
+                size: self.size
+        Label:
+            text: "Emotion Detection"
+            font_size: '50sp'
+            size_hint_y: 0.3
+            color: 0, 0, 0,  1
+
+        BoxLayout:
+            orientation: "horizontal"
+            padding: 30,80,30,30
+            BoxLayout:
+                padding: 0, 20, 0 ,20
+                orientation: "vertical"
+                height: 160
+                size_hint_y: None
+                spacing: 20
+                Label:
+                    id: lb1
+                    text: root.emotion_src
+                    color: 0.671 , 0.718 , 0.718, 1
+                    text_size: self.size
+                    size: root.size
+                    font_size: '20sp'
+                    halign: "left"
+                    valign: "middle"
+                Label:
+                    id: lb2
+                    text: root.csv_src
+                    color: 0.671 , 0.718 , 0.718, 1
+                    text_size: self.size
+                    size: root.size
+                    font_size: '20sp'
+                    halign: "left"
+                    valign: "middle"
+            BoxLayout:
+                size_hint_x: 0.5
+                orientation: "vertical"
+                padding: 20, 20, 0 ,20
+                height: 160
+                spacing: 20
+                size_hint_y: None
+                Button:
+                    text: 'Load Picture'
+                    font_size: '20sp'
+                    background_normal: ''
+                    background_color: 0.906 , 0.298 , 0.235, 1
+                    background_down: ''
+                    border: 0,0,0,0
+                    on_release: root.show_load()
+                Button:
+                    text: "Select CSV File"
+                    font_size: "20sp"
+                    background_normal: ''
+                    background_color: 0.106 , 0.737 , 0.608, 1
+                    background_down: ''
+                    border: 0,0,0,0
+                    on_release: root.show_select()
+
+        BoxLayout:
+            orientation: "vertical"
+            padding: 30,0,30,0
+            size_hint_y: 0.3
+            ProgressBar:
+                size_hint_y: 0.3
+                max: root.progressTotal
+                value: root.progressCurrent
+
+            Label:
+                size_hint_y: 0.2
+                text_size: self.size
+                text: root.process_log
+                color: 0,0,0,1
+                halign: "left"
+                valign: "middle"
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: 90
+            padding: 30, 20, 30, 20
+            spacing: 20
+            Button:
+                text: 'Back'
+                font_size: '20sp'
+                background_normal: ''
+                background_color: 0.604 , 0.071 , 0.702, 1
+                background_down: ''
+                border: 0,0,0,0
+                on_release: app.root.current = 'main'
+            Button:
+                text: 'Analyse'
+                font_size: '20sp'
+                background_normal: ''
+                background_color: 0.914 , 0.831 , 0.376, 1
+                background_down: ''
+                border: 0,0,0,0
+                on_release: root.process_emotionAPI()
+            Button:
+                text: 'Settings'
+                font_size: '20sp'
+                background_normal: ''
+                background_color: 0.133 , 0.655 , 0.941, 1
+                background_down: ''
+                border: 0,0,0,0
+                on_release: root.show_setting()
+
